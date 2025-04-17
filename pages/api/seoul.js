@@ -10,10 +10,15 @@ export default async function handler(req, res) {
   }
 
   const API_KEY = "6d71694172676f6f353466574a6a77";
-  const url = `https://openapi.seoul.go.kr/api/${API_KEY}/json/SPOP_DAILYSUM_JACHI/1/1000/${date}`;
+  const url = `https://openapi.seoul.go.kr/api/${API_KEY}/json/SPOP_DAILYSUM_JACHI/1/100/${date}`; // 100개로 제한
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 7000); // 7초 타임아웃
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
+
     const text = await response.text();
 
     if (!response.ok || !text.includes("SPOP_DAILYSUM_JACHI")) {
@@ -27,10 +32,11 @@ export default async function handler(req, res) {
     const data = JSON.parse(text);
     res.status(200).json(data);
   } catch (err) {
-    console.error("서울시 OpenAPI 호출 실패:", err);
+    clearTimeout(timeout);
+    console.error("서울시 OpenAPI 호출 실패:", err.message);
     res.status(500).json({
       error: "서울시 OpenAPI 호출 실패",
-      details: err.message
+      details: err.message || "Unknown error"
     });
   }
 }
