@@ -14,25 +14,24 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(url);
-    
-    // ❗ 실패 응답일 경우 명확히 처리
-    if (!response.ok) {
-      const errMsg = await response.text();
+    const text = await response.text();
+
+    // 만약 서울시 OpenAPI가 HTML 또는 오류 메시지를 반환하면
+    if (!response.ok || !text.includes("SPOP_DAILYSUM_JACHI")) {
       return res.status(502).json({
-        error: "서울시 OpenAPI 응답 오류",
+        error: "서울시 OpenAPI 응답 오류 또는 해당 날짜 데이터 없음",
         status: response.status,
-        body: errMsg
+        body: text
       });
     }
 
-    const data = await response.json();
+    const data = JSON.parse(text);
     res.status(200).json(data);
-
-  } catch (error) {
-    console.error("서울시 OpenAPI 호출 실패:", error);
+  } catch (err) {
+    console.error("서울시 OpenAPI 호출 실패:", err);
     res.status(500).json({
       error: "서울시 OpenAPI 호출 실패",
-      details: error.message
+      details: err.message
     });
   }
 }
