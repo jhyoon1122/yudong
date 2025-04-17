@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
   const { start, end, date } = req.query;
   const apikey = '6d71694172676f6f353466574a6a77';
@@ -16,5 +18,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Proxy fetch failed', details: err.message });
   }
 }
-Add proxy code
-✓ Commit directly to the main branch
