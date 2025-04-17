@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const url = `https://openapi.seoul.go.kr/api/${API_KEY}/json/SPOP_DAILYSUM_JACHI/1/100/${date}`; // 100개로 제한
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 7000); // 7초 타임아웃
+  const timeout = setTimeout(() => controller.abort(), 12000); // 12초 타임아웃
 
   try {
     const response = await fetch(url, { signal: controller.signal });
