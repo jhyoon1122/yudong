@@ -2,8 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Seoul Living Population Proxy API",
-    "version": "1.0.0",
-    "description": "서울시 생활인구 공공데이터를 프록시 서버를 통해 조회합니다."
+    "version": "1.0.0"
   },
   "servers": [
     {
@@ -14,22 +13,28 @@
     "/api/seoul": {
       "get": {
         "operationId": "getLivingPopulation",
-        "summary": "서울시 생활인구 데이터 조회 (프록시)",
+        "summary": "서울시 생활인구 데이터를 프록시를 통해 조회합니다.",
         "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
           {
             "name": "date",
             "in": "query",
             "required": true,
-            "description": "조회할 날짜 (YYYYMMDD 형식)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "guCode",
-            "in": "query",
-            "required": false,
-            "description": "자치구 코드 (선택)",
             "schema": {
               "type": "string"
             }
@@ -43,23 +48,42 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "list_total_count": { "type": "integer" },
-                    "RESULT": {
+                    "SPOP_DAILYSUM_JACHI": {
                       "type": "object",
                       "properties": {
-                        "CODE": { "type": "string" },
-                        "MESSAGE": { "type": "string" }
-                      }
-                    },
-                    "row": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "STDR_DE_ID": { "type": "string" },
-                          "SIGNGU_CODE_SE": { "type": "string" },
-                          "SIGNGU_NM": { "type": "string" },
-                          "TOT_LVPOP_CO": { "type": "number" }
+                        "list_total_count": {
+                          "type": "integer"
+                        },
+                        "RESULT": {
+                          "type": "object",
+                          "properties": {
+                            "CODE": {
+                              "type": "string"
+                            },
+                            "MESSAGE": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "row": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "STDR_DE_ID": {
+                                "type": "string"
+                              },
+                              "SIGNGU_CODE_SE": {
+                                "type": "string"
+                              },
+                              "SIGNGU_NM": {
+                                "type": "string"
+                              },
+                              "TOT_LVPOP_CO": {
+                                "type": "number"
+                              }
+                            }
+                          }
                         }
                       }
                     }
