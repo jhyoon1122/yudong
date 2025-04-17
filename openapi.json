@@ -19,6 +19,7 @@
             "name": "start",
             "in": "query",
             "required": true,
+            "description": "조회 시작 시간 (0~23 사이 정수)",
             "schema": {
               "type": "integer"
             }
@@ -27,6 +28,7 @@
             "name": "end",
             "in": "query",
             "required": true,
+            "description": "조회 종료 시간 (0~23 사이 정수)",
             "schema": {
               "type": "integer"
             }
@@ -35,6 +37,7 @@
             "name": "date",
             "in": "query",
             "required": true,
+            "description": "조회할 날짜 (예: 20240704)",
             "schema": {
               "type": "string"
             }
@@ -70,23 +73,29 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "STDR_DE_ID": {
-                                "type": "string"
-                              },
-                              "SIGNGU_CODE_SE": {
-                                "type": "string"
-                              },
-                              "SIGNGU_NM": {
-                                "type": "string"
-                              },
-                              "TOT_LVPOP_CO": {
-                                "type": "number"
-                              }
+                              "STDR_DE_ID": { "type": "string" },
+                              "SIGNGU_CODE_SE": { "type": "string" },
+                              "SIGNGU_NM": { "type": "string" },
+                              "TOT_LVPOP_CO": { "type": "number" }
                             }
                           }
                         }
                       }
                     }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서울시 OpenAPI 호출 실패 또는 서버 내부 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" },
+                    "details": { "type": "string" }
                   }
                 }
               }
