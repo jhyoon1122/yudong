@@ -10,13 +10,12 @@ export default async function handler(req, res) {
   }
 
   const API_KEY = "6d71694172676f6f353466574a6a77";
-  const url = `https://openapi.seoul.go.kr:8088/${API_KEY}/json/SPOP_DAILYSUM_JACHI/1/1000/${date}`;
+  const url = `https://openapi.seoul.go.kr/api/${API_KEY}/json/SPOP_DAILYSUM_JACHI/1/1000/${date}`;
 
   try {
     const response = await fetch(url);
     const text = await response.text();
 
-    // 만약 서울시 OpenAPI가 HTML 또는 오류 메시지를 반환하면
     if (!response.ok || !text.includes("SPOP_DAILYSUM_JACHI")) {
       return res.status(502).json({
         error: "서울시 OpenAPI 응답 오류 또는 해당 날짜 데이터 없음",
